@@ -1,6 +1,15 @@
+/* Tailwind CSS imports - ensure these are processed */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Test CSS rule to verify processing */
+.test-css-rule {
+  background-color: red !important;
+  color: white !important;
+  padding: 20px !important;
+  border-radius: 8px !important;
+}
 
 @layer base {
   html {

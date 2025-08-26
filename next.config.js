@@ -15,6 +15,17 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  // CSS configuration
+  webpack: (config, { isServer }) => {
+    // Ensure CSS is processed correctly
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+      }
+    }
+    return config
+  },
 }
 
 module.exports = nextConfig

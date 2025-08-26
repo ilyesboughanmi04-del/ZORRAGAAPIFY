@@ -2,8 +2,10 @@ import type React from "react"
 import type { Metadata } from "next"
 import { GeistSans } from "geist/font/sans"
 import { GeistMono } from "geist/font/mono"
-// Ensure CSS is imported before any components
+
+// CSS must be imported first - before any components
 import "./globals.css"
+
 import { ThemeProvider } from "@/components/theme-provider"
 import { CartProvider } from "@/hooks/use-cart"
 import { CSSDebug } from "@/components/css-debug"
