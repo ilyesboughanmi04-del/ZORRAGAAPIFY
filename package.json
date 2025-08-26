@@ -14,7 +14,9 @@
     "db:seed": "tsx prisma/seed.ts",
     "postinstall": "prisma generate",
     "vercel-build": "prisma generate && next build",
-    "build:vercel": "prisma generate && next build"
+    "build:vercel": "prisma generate && next build",
+    "build:css": "tailwindcss -i ./app/globals.css -o ./app/output.css --watch",
+    "build:production": "tailwindcss -i ./app/globals.css -o ./app/output.css --minify && next build"
   },
   "dependencies": {
     "@prisma/client": "^5.22.0",
