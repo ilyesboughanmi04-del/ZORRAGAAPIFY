@@ -1,7 +1,3 @@
-const APIFY_API_TOKEN = process.env.APIFY_API_TOKEN 
-const ACTOR_ID = process.env.APIFY_ACTOR_ID || "Zt16dqMI2yN7Igggl"
-const BASE_URL = `https://api.apify.com/v2/acts/${ACTOR_ID}`
-
 export interface ApiResponse<T> {
   data: T
   error?: string
@@ -11,7 +7,7 @@ async function callApifyActor<T>(input: any): Promise<ApiResponse<T>> {
   try {
     console.log("[v0] Starting Apify actor with input:", input)
 
-    const runResponse = await fetch(`${BASE_URL}/run-sync-get-dataset-items?token=${APIFY_API_TOKEN}&timeout=120`, {
+    const runResponse = await fetch('/api/apify', {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -20,7 +16,6 @@ async function callApifyActor<T>(input: any): Promise<ApiResponse<T>> {
     })
 
     console.log("[v0] Run response status:", runResponse.status)
-    console.log("[v0] Response headers:", Object.fromEntries(runResponse.headers.entries()))
 
     if (!runResponse.ok) {
       const errorText = await runResponse.text()
