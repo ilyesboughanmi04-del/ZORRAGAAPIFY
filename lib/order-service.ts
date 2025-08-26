@@ -144,7 +144,20 @@ export class OrderService {
       return { order, orderItems }
     } catch (error) {
       console.error('Error creating order:', error)
-      throw new Error('Failed to create order')
+      
+      // Log more detailed error information
+      if (error instanceof Error) {
+        console.error('Error message:', error.message)
+        console.error('Error stack:', error.stack)
+      }
+      
+      // Check if it's a Prisma error
+      if (error && typeof error === 'object' && 'code' in error) {
+        console.error('Prisma error code:', (error as any).code)
+        console.error('Prisma error meta:', (error as any).meta)
+      }
+      
+      throw new Error(`Failed to create order: ${error instanceof Error ? error.message : 'Unknown error'}`)
     }
   }
 
