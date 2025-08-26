@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useCart } from "@/hooks/use-cart"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -26,7 +26,7 @@ export default function CheckoutPage() {
     address: "",
     city: "",
     postalCode: "",
-    country: "France",
+    country: "Tunisia",
     notes: "",
   })
 
@@ -109,8 +109,14 @@ export default function CheckoutPage() {
   const shippingCost = getTotalPrice() >= 50 ? 0 : 15.99
   const totalWithShipping = getTotalPrice() + shippingCost
 
+  // Prevent redirect during static generation
+  useEffect(() => {
+    if (state.items.length === 0 && !isCompleted) {
+      router.push("/")
+    }
+  }, [state.items.length, isCompleted, router])
+
   if (state.items.length === 0 && !isCompleted) {
-    router.push("/")
     return null
   }
 
