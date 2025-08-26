@@ -31,7 +31,14 @@ export function Header() {
       if (response.error) {
         setSearchResults([])
       } else {
-        const searchData = response.data?.[0]
+        let searchData: any = null
+        
+        if (Array.isArray(response.data) && response.data.length > 0) {
+          searchData = response.data[0]
+        } else if (response.data && typeof response.data === 'object') {
+          searchData = response.data
+        }
+        
         if (searchData?.articles) {
           setSearchResults(searchData.articles)
         } else {
