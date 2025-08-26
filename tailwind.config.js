@@ -6,13 +6,7 @@ module.exports = {
     './components/**/*.{ts,tsx}',
     './app/**/*.{ts,tsx}',
     './src/**/*.{ts,tsx}',
-    './*.{js,ts,jsx,tsx}',
   ],
-  // Ensure CSS is properly generated
-  important: false,
-  corePlugins: {
-    preflight: true,
-  },
   theme: {
     container: {
       center: true,
