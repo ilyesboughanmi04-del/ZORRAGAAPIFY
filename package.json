@@ -13,7 +13,7 @@
     "db:studio": "prisma studio",
     "db:seed": "tsx prisma/seed.ts",
     "postinstall": "prisma generate",
-    "vercel-build": "npx tailwindcss -i ./app/globals.css -o ./app/output.css --minify && prisma generate && next build",
+    "vercel-build": "echo 'Building CSS...' && npx tailwindcss -i ./app/globals.css -o ./app/output.css --minify && echo 'CSS built successfully' && echo 'Generating Prisma client...' && prisma generate && echo 'Building Next.js...' && next build",
     "build:vercel": "prisma generate && next build",
     "build:css": "npx tailwindcss -i ./app/globals.css -o ./app/output.css --minify",
     "build:production": "npx tailwindcss -i ./app/globals.css -o ./app/output.css --minify && next build",

@@ -7,8 +7,17 @@ export function CSSDebug() {
   const [tailwindWorking, setTailwindWorking] = useState(false)
   const [customCssWorking, setCustomCssWorking] = useState(false)
   const [debugInfo, setDebugInfo] = useState<any>({})
+  const [cssFiles, setCssFiles] = useState<string[]>([])
 
   useEffect(() => {
+    // Check what CSS files are loaded
+    const checkCSSFiles = () => {
+      const links = document.querySelectorAll('link[rel="stylesheet"]')
+      const cssFiles = Array.from(links).map(link => (link as HTMLLinkElement).href)
+      setCssFiles(cssFiles)
+      console.log('🔍 CSS Files loaded:', cssFiles)
+    }
+
     // Check if CSS is loaded
     const checkCSS = () => {
       // Test if Tailwind classes are working
@@ -61,10 +70,23 @@ export function CSSDebug() {
       console.log('CSS Loaded:', hasTailwind || hasCustomCss)
       console.log('Tailwind Working:', hasTailwind)
       console.log('Custom CSS Working:', hasCustomCss)
-      console.log('Tailwind Styles:', computedStyle)
-      console.log('Custom CSS Styles:', customStyle)
+      console.log('Tailwind Styles:', {
+        backgroundColor: computedStyle.backgroundColor,
+        color: computedStyle.color,
+        padding: computedStyle.padding,
+        borderRadius: computedStyle.borderRadius
+      })
+      console.log('Custom CSS Styles:', {
+        backgroundColor: customStyle.backgroundColor,
+        color: customStyle.color,
+        padding: customStyle.padding,
+        borderRadius: customStyle.borderRadius
+      })
     }
 
+    // Check CSS files first
+    checkCSSFiles()
+    
     // Wait a bit for CSS to load
     setTimeout(checkCSS, 1000)
     
@@ -81,7 +103,8 @@ export function CSSDebug() {
         ⚠️ CSS Not Loaded
         <div className="mt-1 text-xs">
           Tailwind: {tailwindWorking ? '✅' : '❌'}<br/>
-          Custom: {customCssWorking ? '✅' : '❌'}
+          Custom: {customCssWorking ? '✅' : '❌'}<br/>
+          Files: {cssFiles.length}
         </div>
       </div>
     )
@@ -92,7 +115,8 @@ export function CSSDebug() {
       ✅ CSS Loaded
       <div className="mt-1 text-xs">
         Tailwind: {tailwindWorking ? '✅' : '❌'}<br/>
-        Custom: {customCssWorking ? '✅' : '❌'}
+        Custom: {customCssWorking ? '✅' : '❌'}<br/>
+        Files: {cssFiles.length}
       </div>
     </div>
   )
