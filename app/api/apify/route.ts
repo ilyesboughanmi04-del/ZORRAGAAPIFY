@@ -57,7 +57,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    return NextResponse.json({ data: results })
+    return NextResponse.json(results)
   } catch (error) {
     console.error("[v0] Apify API Error:", error)
     return NextResponse.json(
