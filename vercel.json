@@ -1,4 +1,6 @@
 {
   "framework": "nextjs",
-  "buildCommand": "pnpm run vercel-build"
+  "buildCommand": "pnpm run vercel-build",
+  "installCommand": "pnpm install",
+  "outputDirectory": ".next"
 }
