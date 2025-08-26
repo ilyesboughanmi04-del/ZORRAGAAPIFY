@@ -178,7 +178,8 @@ export function CategoriesDisplay({ manufacturerId, vehicleId, onCategorySelect 
       const categoryText = categoryData.text
       const categoryId =
         Object.keys(v3Categories).find((key) => v3Categories[key] === categoryData) ||
-        Object.keys(categoryData).find((key) => key !== "text" && key !== "children")
+        Object.keys(categoryData).find((key) => key !== "text" && key !== "children") ||
+        null
 
       if (categoryData.children && typeof categoryData.children === "object") {
         // Has children, process them
