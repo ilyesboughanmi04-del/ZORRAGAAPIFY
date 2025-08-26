@@ -92,9 +92,13 @@ export function ArticleDetails({ articleId, onBack }: ArticleDetailsProps) {
         return
       }
 
-      const articleData = (Array.isArray(response.data) && response.data.length > 0 
-        ? response.data[0]?.article 
-        : response.data?.article) as any
+      let articleData: any = null
+      
+      if (Array.isArray(response.data) && response.data.length > 0) {
+        articleData = response.data[0]?.article
+      } else if (response.data && typeof response.data === 'object') {
+        articleData = (response.data as any).article
+      }
       
       if (!articleData) {
         setError("Données d'article invalides")
