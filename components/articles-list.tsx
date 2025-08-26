@@ -68,7 +68,7 @@ export function ArticlesList({
         return
       }
 
-      const articlesData = response.data?.[0]?.articles || []
+      const articlesData = (response.data as any)?.[0]?.articles || []
       setArticles(articlesData)
     } catch (err) {
       setError("Erreur lors du chargement des articles")

@@ -54,9 +54,9 @@ export function CategoriesDisplay({ manufacturerId, vehicleId, onCategorySelect 
       let response = await getCategories(manufacturerId, vehicleId, "v1")
       console.log("[v0] Categories v1 response:", response)
 
-      if (!response.error && response.data?.[0]?.categories) {
+      if (!response.error && (response.data as any)?.[0]?.categories) {
         // v1 format: direct array of categories
-        categoriesData = response.data[0].categories
+        categoriesData = (response.data as any)[0].categories
         console.log("[v0] Using v1 categories:", categoriesData.length)
       }
 
@@ -65,9 +65,9 @@ export function CategoriesDisplay({ manufacturerId, vehicleId, onCategorySelect 
         response = await getCategories(manufacturerId, vehicleId, "v2")
         console.log("[v0] Categories v2 response:", response)
 
-        if (!response.error && response.data?.[0]?.categories) {
+        if (!response.error && (response.data as any)?.[0]?.categories) {
           // v2 format: nested object structure, convert to v1 format
-          const v2Categories = response.data[0].categories
+          const v2Categories = (response.data as any)[0].categories
           categoriesData = convertV2ToV1Format(v2Categories)
           console.log("[v0] Using v2 categories:", categoriesData.length)
         }

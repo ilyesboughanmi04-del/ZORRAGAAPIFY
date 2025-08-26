@@ -66,7 +66,9 @@ export function VehicleSelector() {
         return
       }
 
-      const manufacturersData = response.data?.[0]?.manufacturers || []
+      const manufacturersData = (response.data as any)?.[0]?.manufacturers || []
+      console.log("[v0] Full response:", response)
+      console.log("[v0] Response data:", response.data)
       console.log("[v0] Extracted manufacturers:", manufacturersData)
       setManufacturers(manufacturersData)
     } catch (err) {
@@ -88,7 +90,7 @@ export function VehicleSelector() {
         return
       }
 
-      const modelsData = response.data?.[0]?.models || []
+      const modelsData = (response.data as any)?.[0]?.models || []
       console.log("[v0] Extracted models:", modelsData)
       setModels(modelsData)
     } catch (err) {
@@ -110,7 +112,7 @@ export function VehicleSelector() {
         return
       }
 
-      const vehiclesData = response.data?.[0]?.modelTypes || []
+      const vehiclesData = (response.data as any)?.[0]?.modelTypes || []
       console.log("[v0] Extracted vehicles:", vehiclesData)
       setVehicles(vehiclesData)
     } catch (err) {
