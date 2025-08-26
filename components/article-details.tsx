@@ -92,16 +92,23 @@ export function ArticleDetails({ articleId, onBack }: ArticleDetailsProps) {
         return
       }
 
-      const articleData = response.data?.[0]?.article
+      const articleData = (Array.isArray(response.data) && response.data.length > 0 
+        ? response.data[0]?.article 
+        : response.data?.article) as any
+      
+      if (!articleData) {
+        setError("Données d'article invalides")
+        return
+      }
       
       // Debug: Log image data
       console.log("Article data received:", articleData)
       console.log("Image fields:", {
-        s3ImageLink: articleData?.s3ImageLink,
-        imageLink: articleData?.imageLink,
-        imageMedia: articleData?.imageMedia,
-        articleMediaFileName: articleData?.articleMediaFileName,
-        articleMediaType: articleData?.articleMediaType
+        s3ImageLink: articleData.s3ImageLink,
+        imageLink: articleData.imageLink,
+        imageMedia: articleData.imageMedia,
+        articleMediaFileName: articleData.articleMediaFileName,
+        articleMediaType: articleData.articleMediaType
       })
       
       setArticle(articleData)
