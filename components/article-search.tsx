@@ -70,7 +70,13 @@ export default function ArticleSearch({ onArticleSelect, initialSearchQuery = ""
         setResultCount(0)
       } else {
         console.log("[v0] Search response:", response.data)
-        const searchData = response.data?.[0] as SearchResponse
+        let searchData: SearchResponse | null = null
+        
+        if (Array.isArray(response.data) && response.data.length > 0) {
+          searchData = response.data[0] as SearchResponse
+        } else if (response.data && typeof response.data === 'object') {
+          searchData = response.data as SearchResponse
+        }
 
         if (searchData?.articles) {
           setSearchResults(searchData.articles)

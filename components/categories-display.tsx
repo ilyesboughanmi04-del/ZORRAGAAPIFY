@@ -78,11 +78,20 @@ export function CategoriesDisplay({ manufacturerId, vehicleId, onCategorySelect 
         response = await getCategories(manufacturerId, vehicleId, "v3")
         console.log("[v0] Categories v3 response:", response)
 
-        if (!response.error && response.data?.[0]?.categories) {
-          // v3 format: different nested structure, convert to v1 format
-          const v3Categories = response.data[0].categories
-          categoriesData = convertV3ToV1Format(v3Categories)
-          console.log("[v0] Using v3 categories:", categoriesData.length)
+        if (!response.error) {
+          let v3Categories: any = null
+          
+          if (Array.isArray(response.data) && response.data.length > 0) {
+            v3Categories = response.data[0]?.categories
+          } else if (response.data && typeof response.data === 'object') {
+            v3Categories = (response.data as any).categories
+          }
+          
+          if (v3Categories) {
+            // v3 format: different nested structure, convert to v1 format
+            categoriesData = convertV3ToV1Format(v3Categories)
+            console.log("[v0] Using v3 categories:", categoriesData.length)
+          }
         }
       }
 
@@ -126,9 +135,9 @@ export function CategoriesDisplay({ manufacturerId, vehicleId, onCategorySelect 
               levelText_1: level === 1 ? categoryName : parentText,
               levelId_1: level === 1 ? categoryId : parentId,
               levelText_2: level === 1 ? childName : categoryName,
-              levelId_2: level === 1 ? childData.categoryId?.toString() : categoryId,
+              levelId_2: level === 1 ? (childData.categoryId?.toString() || null) : categoryId,
               levelText_3: level > 1 ? childName : null,
-              levelId_3: level > 1 ? childData.categoryId?.toString() : null,
+              levelId_3: level > 1 ? (childData.categoryId?.toString() || null) : null,
               levelText_4: null,
               levelId_4: null,
             })
