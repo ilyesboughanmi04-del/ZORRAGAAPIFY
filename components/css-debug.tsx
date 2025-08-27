@@ -26,6 +26,7 @@ export function CSSDebug() {
       testElement.style.position = 'absolute'
       testElement.style.left = '-9999px'
       testElement.style.top = '-9999px'
+      testElement.textContent = 'Test Element'
       document.body.appendChild(testElement)
       
       const computedStyle = window.getComputedStyle(testElement)
@@ -36,6 +37,28 @@ export function CSSDebug() {
         borderRadius: computedStyle.borderRadius,
         display: computedStyle.display,
         position: computedStyle.position
+      })
+      
+      // Check if the CSS rules are actually in the stylesheet
+      const styleSheets = Array.from(document.styleSheets)
+      console.log('🔍 StyleSheets found:', styleSheets.length)
+      
+      styleSheets.forEach((sheet, index) => {
+        try {
+          const rules = Array.from(sheet.cssRules || [])
+          const bgBlueRules = rules.filter(rule => 
+            rule.cssText.includes('bg-blue-500') || 
+            rule.cssText.includes('background-color')
+          )
+          console.log(`🔍 Stylesheet ${index}:`, {
+            href: sheet.href,
+            rulesCount: rules.length,
+            bgBlueRules: bgBlueRules.length,
+            sampleRules: rules.slice(0, 3).map(r => r.cssText.substring(0, 100))
+          })
+        } catch (e) {
+          console.log(`🔍 Could not access stylesheet ${index}:`, e)
+        }
       })
       
       const hasTailwind = computedStyle.backgroundColor !== 'rgba(0, 0, 0, 0)' && 
@@ -51,6 +74,7 @@ export function CSSDebug() {
       customElement.style.position = 'absolute'
       customElement.style.left = '-9999px'
       customElement.style.top = '-9999px'
+      customElement.textContent = 'Custom Test'
       document.body.appendChild(customElement)
       
       const customStyle = window.getComputedStyle(customElement)
@@ -71,6 +95,7 @@ export function CSSDebug() {
       basicElement.style.position = 'absolute'
       basicElement.style.left = '-9999px'
       basicElement.style.top = '-9999px'
+      basicElement.textContent = 'Basic Test'
       document.body.appendChild(basicElement)
       
       const basicStyle = window.getComputedStyle(basicElement)
@@ -85,7 +110,7 @@ export function CSSDebug() {
       const hasBasicCss = basicStyle.backgroundColor === 'rgb(255, 0, 0)' // red
       console.log('🔍 Basic CSS working:', hasBasicCss)
       
-      // Test with inline styles to see if CSS is working at all
+      // Test inline styles to see if CSS is working at all
       const inlineElement = document.createElement('div')
       inlineElement.style.backgroundColor = 'purple'
       inlineElement.style.color = 'white'
@@ -93,6 +118,7 @@ export function CSSDebug() {
       inlineElement.style.position = 'absolute'
       inlineElement.style.left = '-9999px'
       inlineElement.style.top = '-9999px'
+      inlineElement.textContent = 'Inline Test'
       document.body.appendChild(inlineElement)
       
       const inlineStyle = window.getComputedStyle(inlineElement)
@@ -100,31 +126,6 @@ export function CSSDebug() {
         backgroundColor: inlineStyle.backgroundColor,
         color: inlineStyle.color,
         padding: inlineStyle.padding
-      })
-      
-      // Test with !important styles to see if there are conflicts
-      const importantElement = document.createElement('div')
-      importantElement.style.cssText = 'background-color: orange !important; color: black !important; padding: 25px !important; position: absolute; left: -9999px; top: -9999px;'
-      document.body.appendChild(importantElement)
-      
-      const importantStyle = window.getComputedStyle(importantElement)
-      console.log('🔍 !important styles test:', {
-        backgroundColor: importantStyle.backgroundColor,
-        color: importantStyle.color,
-        padding: importantStyle.padding
-      })
-      
-      // Test if the issue is with specific properties
-      const propertyElement = document.createElement('div')
-      propertyElement.style.cssText = 'background: lime; color: navy; margin: 30px; position: absolute; left: -9999px; top: -9999px;'
-      document.body.appendChild(propertyElement)
-      
-      const propertyStyle = window.getComputedStyle(propertyElement)
-      console.log('🔍 Property styles test:', {
-        background: propertyStyle.background,
-        backgroundColor: propertyStyle.backgroundColor,
-        color: propertyStyle.color,
-        margin: propertyStyle.margin
       })
       
       // Overall CSS status
@@ -135,8 +136,6 @@ export function CSSDebug() {
       document.body.removeChild(customElement)
       document.body.removeChild(basicElement)
       document.body.removeChild(inlineElement)
-      document.body.removeChild(importantElement)
-      document.body.removeChild(propertyElement)
       
       // Store debug info
       setDebugInfo({
@@ -158,22 +157,6 @@ export function CSSDebug() {
           padding: basicStyle.padding,
           margin: basicStyle.margin,
           border: basicStyle.border
-        },
-        inline: {
-          backgroundColor: inlineStyle.backgroundColor,
-          color: inlineStyle.color,
-          padding: inlineStyle.padding
-        },
-        important: {
-          backgroundColor: importantStyle.backgroundColor,
-          color: importantStyle.color,
-          padding: importantStyle.padding
-        },
-        property: {
-          background: propertyStyle.background,
-          backgroundColor: propertyStyle.backgroundColor,
-          color: propertyStyle.color,
-          margin: propertyStyle.margin
         }
       })
       
@@ -201,22 +184,6 @@ export function CSSDebug() {
         padding: basicStyle.padding,
         margin: basicStyle.margin,
         border: basicStyle.border
-      })
-      console.log('Inline Styles:', {
-        backgroundColor: inlineStyle.backgroundColor,
-        color: inlineStyle.color,
-        padding: inlineStyle.padding
-      })
-      console.log('!important Styles:', {
-        backgroundColor: importantStyle.backgroundColor,
-        color: importantStyle.color,
-        padding: importantStyle.padding
-      })
-      console.log('Property Styles:', {
-        background: propertyStyle.background,
-        backgroundColor: propertyStyle.backgroundColor,
-        color: propertyStyle.color,
-        margin: propertyStyle.margin
       })
     }
 
