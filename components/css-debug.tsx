@@ -177,6 +177,22 @@ export function CSSDebug() {
       })
       
       document.body.removeChild(inlineElement)
+      
+      // Test if CSS is working on actual page elements
+      const pageElements = document.querySelectorAll('.bg-blue-500, .text-white, .p-4, .rounded')
+      if (pageElements.length > 0) {
+        const firstElement = pageElements[0]
+        const pageElementStyle = window.getComputedStyle(firstElement)
+        console.log('🔍 Page element CSS test:', {
+          element: firstElement.className,
+          backgroundColor: pageElementStyle.backgroundColor,
+          color: pageElementStyle.color,
+          padding: pageElementStyle.padding,
+          borderRadius: pageElementStyle.borderRadius
+        })
+      } else {
+        console.log('🔍 No page elements with CSS classes found')
+      }
     }
 
     // Check CSS files first
