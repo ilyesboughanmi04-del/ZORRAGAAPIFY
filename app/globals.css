@@ -116,10 +116,10 @@ body .test-padding,
 .text-gray-100 { color: #f3f4f6 !important; }
 .text-gray-50 { color: #f9fafb !important; }
 
-/* Tailwind CSS imports - ensure these are processed */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* TEMPORARILY COMMENTED OUT - Tailwind CSS imports - ensure these are processed */
+/* @tailwind base; */
+/* @tailwind components; */
+/* @tailwind utilities; */
 
 /* Test CSS rule to verify processing */
 .test-css-rule {
