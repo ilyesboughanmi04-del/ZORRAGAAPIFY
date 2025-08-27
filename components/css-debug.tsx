@@ -26,7 +26,6 @@ export function CSSDebug() {
       testElement.style.position = 'absolute'
       testElement.style.left = '-9999px'
       testElement.style.top = '-9999px'
-      testElement.textContent = 'Test Element'
       document.body.appendChild(testElement)
       
       const computedStyle = window.getComputedStyle(testElement)
@@ -37,28 +36,6 @@ export function CSSDebug() {
         borderRadius: computedStyle.borderRadius,
         display: computedStyle.display,
         position: computedStyle.position
-      })
-      
-      // Check if the CSS rules are actually in the stylesheet
-      const styleSheets = Array.from(document.styleSheets)
-      console.log('🔍 StyleSheets found:', styleSheets.length)
-      
-      styleSheets.forEach((sheet, index) => {
-        try {
-          const rules = Array.from(sheet.cssRules || [])
-          const bgBlueRules = rules.filter(rule => 
-            rule.cssText.includes('bg-blue-500') || 
-            rule.cssText.includes('background-color')
-          )
-          console.log(`🔍 Stylesheet ${index}:`, {
-            href: sheet.href,
-            rulesCount: rules.length,
-            bgBlueRules: bgBlueRules.length,
-            sampleRules: rules.slice(0, 3).map(r => r.cssText.substring(0, 100))
-          })
-        } catch (e) {
-          console.log(`🔍 Could not access stylesheet ${index}:`, e)
-        }
       })
       
       const hasTailwind = computedStyle.backgroundColor !== 'rgba(0, 0, 0, 0)' && 
@@ -74,7 +51,6 @@ export function CSSDebug() {
       customElement.style.position = 'absolute'
       customElement.style.left = '-9999px'
       customElement.style.top = '-9999px'
-      customElement.textContent = 'Custom Test'
       document.body.appendChild(customElement)
       
       const customStyle = window.getComputedStyle(customElement)
@@ -95,7 +71,6 @@ export function CSSDebug() {
       basicElement.style.position = 'absolute'
       basicElement.style.left = '-9999px'
       basicElement.style.top = '-9999px'
-      basicElement.textContent = 'Basic Test'
       document.body.appendChild(basicElement)
       
       const basicStyle = window.getComputedStyle(basicElement)
@@ -110,24 +85,6 @@ export function CSSDebug() {
       const hasBasicCss = basicStyle.backgroundColor === 'rgb(255, 0, 0)' // red
       console.log('🔍 Basic CSS working:', hasBasicCss)
       
-      // Test inline styles to see if CSS is working at all
-      const inlineElement = document.createElement('div')
-      inlineElement.style.backgroundColor = 'purple'
-      inlineElement.style.color = 'white'
-      inlineElement.style.padding = '20px'
-      inlineElement.style.position = 'absolute'
-      inlineElement.style.left = '-9999px'
-      inlineElement.style.top = '-9999px'
-      inlineElement.textContent = 'Inline Test'
-      document.body.appendChild(inlineElement)
-      
-      const inlineStyle = window.getComputedStyle(inlineElement)
-      console.log('🔍 Inline styles test:', {
-        backgroundColor: inlineStyle.backgroundColor,
-        color: inlineStyle.color,
-        padding: inlineStyle.padding
-      })
-      
       // Overall CSS status
       setCssLoaded(hasTailwind || hasCustomCss || hasBasicCss)
       
@@ -135,7 +92,6 @@ export function CSSDebug() {
       document.body.removeChild(testElement)
       document.body.removeChild(customElement)
       document.body.removeChild(basicElement)
-      document.body.removeChild(inlineElement)
       
       // Store debug info
       setDebugInfo({
@@ -185,6 +141,25 @@ export function CSSDebug() {
         margin: basicStyle.margin,
         border: basicStyle.border
       })
+      
+      // Test inline styles to see if CSS is working at all
+      const inlineElement = document.createElement('div')
+      inlineElement.style.backgroundColor = 'purple'
+      inlineElement.style.color = 'white'
+      inlineElement.style.padding = '20px'
+      inlineElement.style.position = 'absolute'
+      inlineElement.style.left = '-9999px'
+      inlineElement.style.top = '-9999px'
+      document.body.appendChild(inlineElement)
+      
+      const inlineStyle = window.getComputedStyle(inlineElement)
+      console.log('🔍 Inline styles test:', {
+        backgroundColor: inlineStyle.backgroundColor,
+        color: inlineStyle.color,
+        padding: inlineStyle.padding
+      })
+      
+      document.body.removeChild(inlineElement)
     }
 
     // Check CSS files first
