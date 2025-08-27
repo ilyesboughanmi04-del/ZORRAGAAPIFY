@@ -16,6 +16,23 @@ export function CSSDebug() {
       const cssFiles = Array.from(links).map(link => (link as HTMLLinkElement).href)
       setCssFiles(cssFiles)
       console.log('🔍 CSS Files loaded:', cssFiles)
+      
+      // Check if the built CSS file is being served
+      const hasBuiltCSS = cssFiles.some(file => file.includes('output.css'))
+      console.log('🔍 Built CSS file present:', hasBuiltCSS)
+      
+      // Try to fetch CSS content from the first file to see what's actually being served
+      if (cssFiles.length > 0) {
+        fetch(cssFiles[0])
+          .then(response => response.text())
+          .then(text => {
+            console.log('🔍 CSS Content preview (first 500 chars):', text.substring(0, 500))
+            console.log('🔍 CSS Content length:', text.length)
+            console.log('🔍 CSS contains bg-blue-500:', text.includes('bg-blue-500'))
+            console.log('🔍 CSS contains test-basic:', text.includes('test-basic'))
+          })
+          .catch(err => console.log('🔍 Could not fetch CSS content:', err))
+      }
     }
 
     // Check if CSS is loaded
