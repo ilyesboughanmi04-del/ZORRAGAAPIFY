@@ -23,31 +23,75 @@ export function CSSDebug() {
       // Test if Tailwind classes are working
       const testElement = document.createElement('div')
       testElement.className = 'bg-blue-500 text-white p-4 rounded'
+      testElement.style.position = 'absolute'
+      testElement.style.left = '-9999px'
+      testElement.style.top = '-9999px'
       document.body.appendChild(testElement)
       
       const computedStyle = window.getComputedStyle(testElement)
+      console.log('🔍 Raw computed styles for Tailwind test:', {
+        backgroundColor: computedStyle.backgroundColor,
+        color: computedStyle.color,
+        padding: computedStyle.padding,
+        borderRadius: computedStyle.borderRadius,
+        display: computedStyle.display,
+        position: computedStyle.position
+      })
+      
       const hasTailwind = computedStyle.backgroundColor !== 'rgba(0, 0, 0, 0)' && 
                           computedStyle.backgroundColor !== 'transparent' &&
-                          computedStyle.backgroundColor !== ''
+                          computedStyle.backgroundColor !== '' &&
+                          computedStyle.backgroundColor !== 'initial'
       
       setTailwindWorking(hasTailwind)
       
       // Test custom CSS rule
       const customElement = document.createElement('div')
       customElement.className = 'test-css-rule'
+      customElement.style.position = 'absolute'
+      customElement.style.left = '-9999px'
+      customElement.style.top = '-9999px'
       document.body.appendChild(customElement)
       
       const customStyle = window.getComputedStyle(customElement)
+      console.log('🔍 Raw computed styles for custom CSS test:', {
+        backgroundColor: customStyle.backgroundColor,
+        color: customStyle.color,
+        padding: customStyle.padding,
+        borderRadius: customStyle.borderRadius
+      })
+      
       const hasCustomCss = customStyle.backgroundColor === 'rgb(255, 0, 0)' // red
       
       setCustomCssWorking(hasCustomCss)
       
+      // Test basic CSS classes
+      const basicElement = document.createElement('div')
+      basicElement.className = 'test-basic'
+      basicElement.style.position = 'absolute'
+      basicElement.style.left = '-9999px'
+      basicElement.style.top = '-9999px'
+      document.body.appendChild(basicElement)
+      
+      const basicStyle = window.getComputedStyle(basicElement)
+      console.log('🔍 Raw computed styles for basic CSS test:', {
+        backgroundColor: basicStyle.backgroundColor,
+        color: basicStyle.color,
+        padding: basicStyle.padding,
+        margin: basicStyle.margin,
+        border: basicStyle.border
+      })
+      
+      const hasBasicCss = basicStyle.backgroundColor === 'rgb(255, 0, 0)' // red
+      console.log('🔍 Basic CSS working:', hasBasicCss)
+      
       // Overall CSS status
-      setCssLoaded(hasTailwind || hasCustomCss)
+      setCssLoaded(hasTailwind || hasCustomCss || hasBasicCss)
       
       // Clean up
       document.body.removeChild(testElement)
       document.body.removeChild(customElement)
+      document.body.removeChild(basicElement)
       
       // Store debug info
       setDebugInfo({
@@ -62,14 +106,22 @@ export function CSSDebug() {
           color: customStyle.color,
           padding: customStyle.padding,
           borderRadius: customStyle.borderRadius
+        },
+        basic: {
+          backgroundColor: basicStyle.backgroundColor,
+          color: basicStyle.color,
+          padding: basicStyle.padding,
+          margin: basicStyle.margin,
+          border: basicStyle.border
         }
       })
       
       // Log CSS status
       console.log('🔍 CSS Debug Info:')
-      console.log('CSS Loaded:', hasTailwind || hasCustomCss)
+      console.log('CSS Loaded:', hasTailwind || hasCustomCss || hasBasicCss)
       console.log('Tailwind Working:', hasTailwind)
       console.log('Custom CSS Working:', hasCustomCss)
+      console.log('Basic CSS Working:', hasBasicCss)
       console.log('Tailwind Styles:', {
         backgroundColor: computedStyle.backgroundColor,
         color: computedStyle.color,
@@ -82,6 +134,32 @@ export function CSSDebug() {
         padding: customStyle.padding,
         borderRadius: customStyle.borderRadius
       })
+      console.log('Basic CSS Styles:', {
+        backgroundColor: basicStyle.backgroundColor,
+        color: basicStyle.color,
+        padding: basicStyle.padding,
+        margin: basicStyle.margin,
+        border: basicStyle.border
+      })
+      
+      // Test inline styles to see if CSS is working at all
+      const inlineElement = document.createElement('div')
+      inlineElement.style.backgroundColor = 'purple'
+      inlineElement.style.color = 'white'
+      inlineElement.style.padding = '20px'
+      inlineElement.style.position = 'absolute'
+      inlineElement.style.left = '-9999px'
+      inlineElement.style.top = '-9999px'
+      document.body.appendChild(inlineElement)
+      
+      const inlineStyle = window.getComputedStyle(inlineElement)
+      console.log('🔍 Inline styles test:', {
+        backgroundColor: inlineStyle.backgroundColor,
+        color: inlineStyle.color,
+        padding: inlineStyle.padding
+      })
+      
+      document.body.removeChild(inlineElement)
     }
 
     // Check CSS files first
